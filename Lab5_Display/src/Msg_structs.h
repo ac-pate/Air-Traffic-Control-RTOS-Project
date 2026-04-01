@@ -10,8 +10,9 @@
 #define ATC_RADAR_CHANNEL      "Achal_Parsa_320_radar"
 #define ATC_DISPLAY_CHANNEL    "Achal_Parsa_320_display"
 #define ATC_COMPUTER_CHANNEL   "Achal_Parsa_320_computer"
-#define ATC_SHM_NAME           "/shm_Achal_Parsa_320"
-#define ATC_SHM_SIZE           sizeof(SharedMemory)
+#define ATC_SHM_NAME           "/radar_shm_Achal_Parsa_320"
+#define ATC_SHM_SEM            "/radar_sem_Achal_Parsa_320"
+#define SHARED_MEMORY_SIZE     sizeof(SharedMemory)
 
 // returns channel name for specific aircraft
 inline std::string getAircraftChannel(int aircraftId) {
@@ -65,7 +66,6 @@ struct SharedMemory {
     std::atomic<bool> is_empty;  // New flag to indicate if there are no planes in the buffer
     bool start;
     uint64_t timestamp;  // Timestamp of the last write
-    pthread_mutex_t accessLock;  // using mutex instead of semaphore for sync
 };
 
 struct Message_inter_process {

@@ -21,6 +21,11 @@ void AirTrafficControl::readPlanesFromFile(const std::string& fileName) {
 
     std::string line;
     while (std::getline(file, line)) {
+        // skip empty lines
+        if (line.empty() || line.find_first_not_of(" \t\r\n") == std::string::npos) {
+            continue;
+        }
+        
         std::stringstream ss(line);
         PlaneData data;
 
@@ -37,6 +42,7 @@ void AirTrafficControl::readPlanesFromFile(const std::string& fileName) {
     }
 
     file.close();
+    std::cout << "Loaded " << planeData.size() << " aircraft from " << fileName << std::endl;
 
 
 }

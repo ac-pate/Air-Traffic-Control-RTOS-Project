@@ -7,20 +7,19 @@
 // using pthread_mutex in shm instead of named semaphore
 
 Radar::Radar(uint64_t& tick_counter) : tick_counter_ref(tick_counter), activeBufferIndex(0), timer(1,0), stopThreads(false) {
-	Radar_channel = NULL;
-	sharedMemPtr = nullptr;
-	shm_fd = -1;
-	
-	// init shm before starting threads
-	if (!setupSharedMemory()) {
-		std::cerr << "Radar: Failed to initialize shared memory" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	
-	// create radar channel
+	// create radar channel FIRST (like Abu's code)
 	Radar_channel = name_attach(NULL, ATC_RADAR_CHANNEL, 0);
 	if (Radar_channel == NULL) {
 		std::cerr << "Radar: Failed to create channel" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	
+	sharedMemPtr = nullptr;
+	shm_fd = -1;
+	
+	// then init shm
+	if (!setupSharedMemory()) {
+		std::cerr << "Radar: Failed to initialize shared memory" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	
