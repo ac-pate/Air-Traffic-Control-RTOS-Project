@@ -7,16 +7,15 @@
 // Achal & Parsa - COEN 320 ATC Project
 
 // Coen320_Lab (Task0): channel/shm names with group id to avoid conflicts
-#define ATC_RADAR_CHANNEL      "Achal_Parsa_320_radar"
-#define ATC_DISPLAY_CHANNEL    "Achal_Parsa_320_display"
-#define ATC_COMPUTER_CHANNEL   "Achal_Parsa_320_computer"
-#define ATC_SHM_NAME           "/radar_shm_Achal_Parsa_320"
-#define ATC_SHM_SEM            "/radar_sem_Achal_Parsa_320"
-#define SHARED_MEMORY_SIZE     sizeof(SharedMemory)
+#define ATC_RADAR_CHANNEL      "Achal_Parsa_320_radar_ACHAL"
+#define ATC_DISPLAY_CHANNEL    "Achal_Parsa_320_display_ACHAL"
+#define ATC_COMPUTER_CHANNEL   "Achal_Parsa_320_computer_ACHAL"
+#define ATC_SHM_NAME           "/shm_Achal_Parsa_320_ACHAL"
+#define ATC_SHM_SIZE           sizeof(SharedMemory)
 
 // returns channel name for specific aircraft
 inline std::string getAircraftChannel(int aircraftId) {
-    return "Achal_Parsa_320_plane_" + std::to_string(aircraftId);
+    return "Achal_Parsa_320_plane_" + std::to_string(aircraftId) + "_ACHAL";
 }
 
 #define MAX_PLANES_IN_AIRSPACE  100
@@ -66,6 +65,7 @@ struct SharedMemory {
     std::atomic<bool> is_empty;  // New flag to indicate if there are no planes in the buffer
     bool start;
     uint64_t timestamp;  // Timestamp of the last write
+    pthread_mutex_t accessLock;  // using mutex instead of semaphore for sync
 };
 
 struct Message_inter_process {

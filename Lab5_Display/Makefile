@@ -1,4 +1,4 @@
-ARTIFACT = ATC_Computer_ACHAL
+ARTIFACT = ATC_Display_ACHAL
 
 #Build architecture/variant string, possible values: x86, armv7le, etc...
 PLATFORM ?= aarch64le

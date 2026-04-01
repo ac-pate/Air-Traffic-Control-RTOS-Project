@@ -1,4 +1,4 @@
-ARTIFACT = Lab4_ATC_ARCH64
+ARTIFACT = Lab4_ATC_ACHAL
 
 #Build architecture/variant string, possible values: x86, armv7le, etc...
 PLATFORM ?= aarch64le

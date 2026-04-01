@@ -10,7 +10,8 @@ Radar::Radar(uint64_t& tick_counter) : tick_counter_ref(tick_counter), activeBuf
 	// create radar channel FIRST (like Abu's code)
 	Radar_channel = name_attach(NULL, ATC_RADAR_CHANNEL, 0);
 	if (Radar_channel == NULL) {
-		std::cerr << "Radar: Failed to create channel" << std::endl;
+		std::cerr << "Radar: Failed to create channel - another instance may be running" << std::endl;
+		std::cerr << "Kill the old process on the target device first" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	
