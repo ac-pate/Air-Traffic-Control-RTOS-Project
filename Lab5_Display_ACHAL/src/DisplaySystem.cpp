@@ -217,7 +217,8 @@ void DisplaySystem::printAirspace(uint64_t timestamp, const std::vector<msg_plan
     std::sort(sorted.begin(), sorted.end(), 
               [](const msg_plane_info& a, const msg_plane_info& b) { return a.id < b.id; });
     
-    std::cout << "\n";
+    // Clear screen and move cursor to top
+    std::cout << "\033[2J\033[H";
     std::cout << "┌────────────────────────────────────────────────────────────────────────┐" << std::endl;
     std::cout << "│              AIRSPACE DISPLAY - Tick: " << std::setw(6) << timestamp 
               << "                          │" << std::endl;
