@@ -1,22 +1,20 @@
 // Achal & Parsa - ATC Computer System
+// TA Improvement: OperatorConsole moved to Display for integrated control
 
 #include "ComputerSystem.h"
-#include "OperatorConsole.h"
 #include "CommunicationsSystem.h"
 
 int main() {
     std::cout << "=== ATC Computer System (Achal & Parsa) ===" << std::endl;
+    std::cout << "Note: Operator console now integrated with Display system" << std::endl;
     
     ComputerSystem computerSystem;
     // Task 4 (You need to first implement Task 3)
     /*
-    You need to implement OperatorConsole to send commands to Aircraft
-    You may make another class and read user commands to adjust the aircraft data in case of collision.
-    You may use Message_inter_process with MessageType to communicate with Aircrafts:
-    MessageType::REQUEST_CHANGE_OF_HEADING, MessageType::REQUEST_CHANGE_POSITION, MessageType::REQUEST_CHANGE_ALTITUDE
-    // check OperatorConsole.h and CommunicationsSystem.h for a template
+    OperatorConsole implementation moved to Display system for real-time control
+    while viewing airspace. ComputerSystem still handles operator messages via IPC.
+    Message types: REQUEST_CHANGE_OF_HEADING, REQUEST_CHANGE_POSITION, REQUEST_CHANGE_ALTITUDE
     */
-    OperatorConsole console;  // Starts operator input thread
     
     if (computerSystem.startMonitoring()) {
         computerSystem.joinThread();

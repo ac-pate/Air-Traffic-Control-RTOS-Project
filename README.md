@@ -10,25 +10,27 @@ This is a real-time Air Traffic Control simulation running on **QNX Neutrino RTO
 
 ### System Architecture
 
+**TA Improvement:** Operator console integrated with Display for real-time control while viewing airspace
+
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
 │   Lab4_ATC      │     │  Lab5_Computer  │     │  Lab5_Display   │
 │                 │     │                 │     │                 │
 │  ┌───────────┐  │     │ ┌─────────────┐ │     │ ┌─────────────┐ │
 │  │ Aircraft  │──┼──┐  │ │ComputerSys  │ │     │ │DisplaySystem│ │
-│  │ (threads) │  │  │  │ │             │ │     │ │             │ │
+│  │ (threads) │  │  │  │ │ (collision) │◄┼─────┼─│             │ │
 │  └───────────┘  │  │  │ └─────────────┘ │     │ └─────────────┘ │
-│                 │  │  │        │        │     │        ▲        │
-│  ┌───────────┐  │  │  │        │        │     │        │        │
-│  │   Radar   │──┼──┼──┼────────┼────────┼─────┼────────┘        │
-│  │           │  │  │  │        │        │     │                 │
-│  └───────────┘  │  │  │ ┌─────────────┐ │     │                 │
-│                 │  │  │ │OperatorCon  │ │     │                 │
-│                 │  │  │ │             │ │     │                 │
-│                 │  │  │ └─────────────┘ │     │                 │
+│                 │  │  │                 │     │        ▲        │
+│  ┌───────────┐  │  │  │                 │     │        │        │
+│  │   Radar   │──┼──┼──┼─────────────────┼─────┼────────┘        │
+│  │           │  │  │  │                 │     │                 │
+│  └───────────┘  │  │  │                 │     │ ┌─────────────┐ │
+│                 │  │  │                 │     │ │OperatorCon  │ │
+│                 │  │  │                 │     │ │ (user input)│ │
+│                 │  │  │                 │     │ └─────────────┘ │
 └─────────────────┘  │  └─────────────────┘     └─────────────────┘
                      │
-                     └──── Shared Memory ("/atc_shm_40227663")
+                     └──── Shared Memory ("/shm_Achal_Parsa_320")
 ```
 
 ---
@@ -49,6 +51,8 @@ This is a real-time Air Traffic Control simulation running on **QNX Neutrino RTO
 
 ## File Structure
 
+**TA Improvement:** OperatorConsole moved from Computer to Display for integrated control
+
 ```
 achal_atc_project/
 ├── Lab4_ATC/
@@ -63,17 +67,17 @@ achal_atc_project/
 │
 ├── Lab5_Computer/
 │   └── src/
-│       ├── main.cpp              # Entry point
+│       ├── main.cpp              # Entry point (no console)
 │       ├── ComputerSystem.cpp/h  # Collision detection
-│       ├── OperatorConsole.cpp/h # User input handling
 │       ├── CommunicationsSystem.cpp/h # Aircraft messaging
 │       ├── ATCTimer.cpp/h        # Timer utility
 │       └── Msg_structs.h         # Message types
 │
 ├── Lab5_Display/
 │   └── src/
-│       ├── main.cpp              # Entry point
+│       ├── main.cpp              # Entry point (with console)
 │       ├── DisplaySystem.cpp/h   # Visualization
+│       ├── OperatorConsole.cpp/h # User input handling ← MOVED HERE
 │       ├── ATCTimer.cpp/h        # Timer utility
 │       └── Msg_structs.h         # Message types
 │
